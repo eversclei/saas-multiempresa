@@ -1,0 +1,21 @@
+:host { display: inline-flex; }
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px 2px 6px;
+  border-radius: 999px;
+  font: var(--mat-sys-label-medium);
+  white-space: nowrap;
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface);
+
+  mat-icon { font-size: 16px; width: 16px; height: 16px; }
+}
+
+.Aberto, .p-Media { background: var(--mat-sys-secondary-container); color: var(--mat-sys-on-secondary-container); }
+.EmAndamento { background: var(--mat-sys-primary-container); color: var(--mat-sys-on-primary-container); }
+.AguardandoCliente, .p-Alta { background: var(--mat-sys-tertiary-container); color: var(--mat-sys-on-tertiary-container); }
+.Resolvido { background: #c8f2d0; color: #0b3d1a; }
+.p-Critica { background: var(--mat-sys-error-container); color: var(--mat-sys-on-error-container); }

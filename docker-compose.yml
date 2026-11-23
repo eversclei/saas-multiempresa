@@ -1,0 +1,48 @@
+name: saas-multiempresa
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: saas
+      POSTGRES_USER: saas
+      POSTGRES_PASSWORD: saas
+    volumes:
+      - dados:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saas -d saas"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: ./api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Postgres: Host=postgres;Database=saas;Username=saas;Password=saas
+      Jwt__Chave: ${JWT_CHAVE:-troque-esta-chave-em-producao-0123456789}
+      Seed__DadosDemo: "true"
+      Cors__Origens__0: http://localhost:4200
+    ports:
+      - "5080:8080"
+
+  web:
+    build: ./web
+    depends_on: [api]
+    ports:
+      - "4200:80"
+
+  portal:
+    build: ./portal
+    depends_on: [api]
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      SAAS_API_URL: http://api:8080
+    ports:
+      - "8000:80"
+
+volumes:
+  dados:
